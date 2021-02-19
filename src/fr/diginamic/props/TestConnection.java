@@ -3,6 +3,7 @@ package fr.diginamic.props;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class TestConnection {
@@ -18,7 +19,6 @@ public class TestConnection {
 		 * } catch (SQLException e) { // TODO Auto-generated catch block
 		 * System.out.println("Impossible de charger le driver"); }
 		 */
-
 		String password = System.getProperty("password");
 		// Run as configuration -> Arguments -> VMArguments -Dpassword=password
 
@@ -39,15 +39,26 @@ public class TestConnection {
 		try {
 			// Etape 2: je demande au DriverManager de me fournir une connexion à une BDD
 			// Mysql
+
 			Connection connection = DriverManager.getConnection(databaseUrl, databaseRoot, password);
 			System.out.println(connection.isClosed());
+
+			// Etape3 : Creation d'un statement
+
+			Statement statement = connection.createStatement();
+			// executeUpdate pour INSERT DELETE AND UPDATE execute pour CREATE TABLE
+
+			// statement.executeUpdate("insert into abonne (nom,prenom) values
+			// ('Java','Cours')");
+
+			statement.executeUpdate("delete from abonne where abonne.prenom = 'Cours'");
 
 			connection.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Impossible de se co à la BDD, " + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 
 	}
